@@ -1,7 +1,15 @@
 /* eslint-disable react/prop-types */
 
-const InventoryTable = ({ items, onEdit, onDelete, filter, setFilter, sortAsc, setSortAsc }) => {
-  const categories = [...new Set(items.map(item => item.category))]
+const InventoryTable = ({
+  items,
+  onEdit,
+  onDelete,
+  filter,
+  setFilter,
+  sortAsc,
+  setSortAsc,
+}) => {
+  const categories = [...new Set(items.map((item) => item.category))];
 
   return (
     <div className="mt-4">
@@ -15,7 +23,11 @@ const InventoryTable = ({ items, onEdit, onDelete, filter, setFilter, sortAsc, s
               className="form-select d-inline-block w-auto"
             >
               <option value="">All</option>
-              {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
           <div className="col-auto">
@@ -25,7 +37,7 @@ const InventoryTable = ({ items, onEdit, onDelete, filter, setFilter, sortAsc, s
               className="btn btn-secondary"
               onClick={() => setSortAsc(!sortAsc)}
             >
-              {sortAsc ? 'Ascending' : 'Descending'}
+              {sortAsc ? "Ascending" : "Descending"}
             </button>
           </div>
         </div>
@@ -40,8 +52,11 @@ const InventoryTable = ({ items, onEdit, onDelete, filter, setFilter, sortAsc, s
           </tr>
         </thead>
         <tbody>
-          {items.map(item => (
-            <tr key={item.id} className={item.quantity < 10 ? 'table-danger' : ''}>
+          {items.map((item) => (
+            <tr
+              key={item.id}
+              className={item.quantity < 10 ? "table-danger" : ""}
+            >
               <td>{item.name}</td>
               <td>{item.category}</td>
               <td>{item.quantity}</td>
@@ -66,7 +81,7 @@ const InventoryTable = ({ items, onEdit, onDelete, filter, setFilter, sortAsc, s
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default InventoryTable
+export default InventoryTable;
