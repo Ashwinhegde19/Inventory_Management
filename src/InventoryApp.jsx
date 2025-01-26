@@ -5,7 +5,8 @@ import InventoryModal from "./InventoryModal";
 const InventoryApp = () => {
   const [state, setState] = useState({
     items: [],
-    modalData: { show: false, item: null },
+    showModal: false,
+    editingItem: null,
     filter: "",
     sortAsc: true,
   });
@@ -55,16 +56,24 @@ const InventoryApp = () => {
     }));
   };
 
-  const setModalData = (modalData) => {
+  const setShowModal = (showModal) => {
     setState((prevState) => ({
       ...prevState,
-      modalData,
+      showModal,
+    }));
+  };
+
+  const setEditingItem = (editingItem) => {
+    setState((prevState) => ({
+      ...prevState,
+      editingItem,
     }));
   };
 
   const filteredItems = state.filter
     ? state.items.filter((item) => item.category === state.filter)
     : state.items;
+    
   const sortedItems = [...filteredItems].sort((a, b) =>
     state.sortAsc ? a.quantity - b.quantity : b.quantity - a.quantity
   );
@@ -74,25 +83,31 @@ const InventoryApp = () => {
       <h1>Inventory Management</h1>
       <button
         className="btn btn-primary"
-        onClick={() => setModalData({ show: true, item: null })}
+        onClick={() => {
+          setEditingItem(null);
+          setShowModal(true);
+        }}
       >
         Add Item
       </button>
       <InventoryTable
         items={sortedItems}
-        onEdit={(item) => setModalData({ show: true, item })}
+        onEdit={(item) => {
+          setEditingItem(item);
+          setShowModal(true);
+        }}
         onDelete={deleteItem}
         filter={state.filter}
         setFilter={setFilter}
         sortAsc={state.sortAsc}
         setSortAsc={setSortAsc}
       />
-      {state.modalData.show && (
+      {state.showModal && (
         <InventoryModal
-          show={state.modalData.show}
-          editingItem={state.modalData.item}
-          onSubmit={state.modalData.item ? editItem : addItem}
-          onHide={() => setModalData({ show: false, item: null })}
+          show={state.showModal}
+          editingItem={state.editingItem}
+          onSubmit={state.editingItem ? editItem : addItem}
+          onHide={() => setShowModal(false)}
         />
       )}
     </div>
